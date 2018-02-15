@@ -14,6 +14,7 @@ npm install @leizm/accuracy-time --save
 import {
   waitSecond,
   waitUntilTime,
+  setIntervalInSecond,
   getTime,
   addTime
 } from "@leizm/accuracy-time";
@@ -24,6 +25,14 @@ async function main() {
 
   // 等到到当天指定时间后返回
   await waitUntilTime("12:34:56");
+
+  // 每隔指定的整秒执行一次回调
+  const stop = setIntervalInSecond(1, n => {
+    console.log("第%s此执行", n);
+  });
+  // 5秒后停止
+  await waitSecond(5);
+  stop();
 
   // 返回当天指定时间的毫秒时间戳
   const a = getTime("12:34:56");

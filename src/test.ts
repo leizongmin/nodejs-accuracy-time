@@ -5,7 +5,13 @@
  */
 
 import { expect } from "chai";
-import { waitSecond, getTime, addTime, waitUntilTime } from "./index";
+import {
+  waitSecond,
+  getTime,
+  addTime,
+  waitUntilTime,
+  setIntervalInSecond
+} from "./index";
 
 const LIMIT_OF_ACCURACY = 10;
 
@@ -27,6 +33,21 @@ describe("@leizm/accuracy-time", function() {
     );
   });
 
+  it("setIntervalInSecond", async function() {
+    await waitSecond();
+    const list: number[] = [];
+    let last = Date.now();
+    const stop = setIntervalInSecond(1, n => {
+      list[n - 1] = Date.now() - last;
+      last = Date.now();
+    });
+    await waitSecond(5);
+    stop();
+    for (const item of list) {
+      expect(Math.abs(item - 1000)).to.lessThan(LIMIT_OF_ACCURACY);
+    }
+  });
+
   it("waitUntilTime", async function() {
     await waitSecond();
     const start = Date.now();
@@ -38,7 +59,7 @@ describe("@leizm/accuracy-time", function() {
   it("waitSecond", async function() {
     {
       const d = await waitSecond();
-      expect(d).to.lessThan(1000);
+      expect(Math.abs(d - 1000)).to.lessThan(LIMIT_OF_ACCURACY);
     }
     for (let i = 0; i < 5; i++) {
       const d = await waitSecond(1);

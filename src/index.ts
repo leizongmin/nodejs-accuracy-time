@@ -9,6 +9,7 @@ import * as createDebug from "debug";
 
 const debug = createDebug("@leizm:accuracy-time");
 
+/** 误差补偿值，默认-1 */
 let msCompensation: number = -1;
 
 /**
@@ -89,6 +90,37 @@ export function waitUntilTime(
     );
     return d;
   });
+}
+
+export type IntervalHandler = (n: number) => void;
+export type StopInterval = () => void;
+
+/**
+ * 设置每隔N整秒回调一次
+ * @param seconds
+ * @param handler
+ */
+export function setIntervalInSecond(
+  seconds: number,
+  handler: IntervalHandler
+): StopInterval {
+  debug("setIntervalInSecond: seconds=%s", seconds);
+  let counter = 0;
+  let isRunning = true;
+  (async () => {
+    while (isRunning) {
+      await waitSecond(seconds);
+      counter++;
+      debug("setIntervalInSecond callback: n=%s", counter);
+      handler(counter);
+    }
+    debug("setIntervalInSecond stopped");
+  })();
+  const stop = () => {
+    debug("setIntervalInSecond stop by user");
+    isRunning = false;
+  };
+  return stop;
 }
 
 /**
