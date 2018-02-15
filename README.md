@@ -16,7 +16,9 @@ import {
   waitUntilTime,
   setIntervalInSecond,
   getTime,
-  addTime
+  addTime,
+  subtractTimeString,
+  addTimeString
 } from "@leizm/accuracy-time";
 
 async function main() {
@@ -39,6 +41,14 @@ async function main() {
 
   // 从当前时刻开始，返回增加指定时间后的毫秒时间戳
   const b = addTime("00:12:34");
+
+  // 时间相加
+  addTimeString("01:45:50", "00:27:34");
+  // => [2, 13, 24]
+
+  // 时间相减
+  subtractTimeString("02:13:24", "01:45:50");
+  // => [0, 27, 34]
 }
 ```
 

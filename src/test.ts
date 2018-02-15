@@ -6,6 +6,9 @@
 
 import { expect } from "chai";
 import {
+  parseTimeString,
+  subtractTimeString,
+  addTimeString,
   waitSecond,
   getTime,
   addTime,
@@ -16,6 +19,24 @@ import {
 const LIMIT_OF_ACCURACY = 10;
 
 describe("@leizm/accuracy-time", function() {
+  it("parseTimeString", function() {
+    expect(parseTimeString("12:34:56")).to.deep.equal([12, 34, 56]);
+    expect(parseTimeString("00:04:06")).to.deep.equal([0, 4, 6]);
+    expect(() => parseTimeString("50:04:06")).to.throws("格式有误");
+  });
+
+  it("subtractTimeString", function() {
+    expect(subtractTimeString("02:13:24", "01:45:50")).to.deep.equal([
+      0,
+      27,
+      34
+    ]);
+  });
+
+  it("addTimeString", function() {
+    expect(addTimeString("01:45:50", "00:27:34")).to.deep.equal([2, 13, 24]);
+  });
+
   it("getTime", function() {
     const t = Date.now();
     expect(getTime("10:00:01", t) - getTime("10:00:00", t)).to.equal(1000);

@@ -33,9 +33,55 @@ export function getCompensation(): number {
  */
 export function parseTimeString(time: string): [number, number, number] {
   const [h, m, s] = time.split(":").map(v => Number(v));
-  assert(h >= 0, `${time} 格式有误，小时部分必须大于或等于0`);
-  assert(m >= 0, `${time} 格式有误，分钟部分必须大于或等于0`);
-  assert(s >= 0, `${time} 格式有误，秒钟部分必须大于或等于0`);
+  assert(h >= 0 && h < 24, `${time} 格式有误，小时部分必须大于或等于0`);
+  assert(m >= 0 && m < 60, `${time} 格式有误，分钟部分必须大于或等于0`);
+  assert(s >= 0 && s < 60, `${time} 格式有误，秒钟部分必须大于或等于0`);
+  return [h, m, s];
+}
+
+/**
+ * 时间相减 t1 - t2
+ * @param t1
+ * @param t2
+ */
+export function subtractTimeString(
+  t1: string,
+  t2: string
+): [number, number, number] {
+  const [h1, m1, s1] = parseTimeString(t1);
+  const [h2, m2, s2] = parseTimeString(t2);
+  let [h, m, s] = [h1 - h2, m1 - m2, s1 - s2];
+  if (s < 0) {
+    m--;
+    s += 60;
+  }
+  if (m < 0) {
+    h--;
+    m += 60;
+  }
+  return [h, m, s];
+}
+
+/**
+ * 时间相加 t1 + t2
+ * @param t1
+ * @param t2
+ */
+export function addTimeString(
+  t1: string,
+  t2: string
+): [number, number, number] {
+  const [h1, m1, s1] = parseTimeString(t1);
+  const [h2, m2, s2] = parseTimeString(t2);
+  let [h, m, s] = [h1 + h2, m1 + m2, s1 + s2];
+  if (s > 60) {
+    m++;
+    s -= 60;
+  }
+  if (m > 60) {
+    h++;
+    m -= 60;
+  }
   return [h, m, s];
 }
 
