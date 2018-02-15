@@ -1,5 +1,7 @@
 # @leizm/accuracy-time
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/leizongmin/nodejs-accuracy-time.svg?token=64c5483cd7f55d8c3f79e91745c3a36cb7619113e9074348497c53b16d78b4db&ts=1518674376611)](https://greenkeeper.io/)
+
 高精度时间相关模块
 
 ## 安装
