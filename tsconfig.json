@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "sourceMap": true,
+    "declaration": true,
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "outDir": "dist",
+    "pretty": true
+  }
+}
